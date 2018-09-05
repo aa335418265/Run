@@ -12,6 +12,7 @@
 
 @required
 - (void)settingsViewDidSelectedLogout;
+- (void)settingsViewDidSelectedRelogin;
 
 @end
 

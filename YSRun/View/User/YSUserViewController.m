@@ -392,4 +392,9 @@
     [self logout];
 }
 
+- (void)settingsViewDidSelectedRelogin {
+    [self logout];
+    [self login];
+}
+
 @end

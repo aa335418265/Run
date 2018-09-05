@@ -8,8 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol YSModifyViewControllerDelegate <NSObject>
+
+@required
+- (void)modifyViewDidSelectedRelogin;
+
+@end
+
 @interface YSModifyPasswordViewController : UIViewController
 
 - (id)initWithPhoneNumber:(NSString *)phoneNumber;
+
+
+@property (nonatomic, weak) id<YSModifyViewControllerDelegate> delegate;
 
 @end

@@ -20,7 +20,7 @@
 
 #define SettingsTableViewReuseIdentifier @"SettingsTableViewReuseIdentifier"
 
-@interface YSSettingsViewController () <UITableViewDataSource, UITableViewDelegate, YSUserSetCellDelegate>
+@interface YSSettingsViewController () <UITableViewDataSource, UITableViewDelegate, YSUserSetCellDelegate, YSModifyViewControllerDelegate>
 
 @property (nonatomic, weak) IBOutlet YSNavigationBarView *navigationBarView;
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
@@ -208,6 +208,7 @@
     NSString *phoneNumber = [[YSDataManager shareDataManager] getUserPhone];
     
     YSModifyPasswordViewController *modifyPasswordViewController = [[YSModifyPasswordViewController alloc] initWithPhoneNumber:phoneNumber];
+    modifyPasswordViewController.delegate = self;
     
     [self.navigationController pushViewController:modifyPasswordViewController animated:YES];
 }
@@ -226,6 +227,10 @@
     // 用户退出
     [self.delegate settingsViewDidSelectedLogout];
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)modifyViewDidSelectedRelogin {
+    [self.delegate settingsViewDidSelectedRelogin];
 }
 
 #pragma mark - UITableViewDataSource

@@ -251,7 +251,7 @@
             [[YSTipLabelHUD shareTipLabelHUD] showTipWithError:error];
         }else{
             NSLog(@"object=%@",object);
-            [self showTipLabelWithText:@"修改密码成功"];
+            [self modifyPasswordSuccess];
         }
     }];
 
@@ -280,19 +280,20 @@
 
 - (void)modifyPasswordSuccess
 {
-    [[YSLoadingHUD shareLoadingHUD] dismiss];
     
+    
+    [[YSLoadingHUD shareLoadingHUD] dismiss];
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
     
     [self dismissViewControllerAnimated:YES completion:^(){
-        [self showTipLabelWithText:@"密码修改成功"];
+        [self showTipLabelWithText:@"密码修改成功，请重新登录"];
     }];
+    [self.delegate modifyViewDidSelectedRelogin];
 }
 
 - (void)modifyPasswordFailureWithMessage:(NSString *)message
 {
     [[YSLoadingHUD shareLoadingHUD] dismiss];
-    
     [self showTipLabelWithText:message];
 }
 

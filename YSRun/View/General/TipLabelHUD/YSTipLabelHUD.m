@@ -104,7 +104,7 @@ static YSTipLabelHUD *_instance;
     NSString *message = nil;
     switch (code) {
         case 210:
-            message = @"用户名和密码不匹配";
+            message = @"密码错误";
             break;
         case 211:
             message = @"找不到用户";
