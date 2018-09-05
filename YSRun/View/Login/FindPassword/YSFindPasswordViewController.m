@@ -32,7 +32,7 @@
 @property (nonatomic, strong) YSPhoneTextFieldLimitDelegate *phoneTextFieldDelegate;
 
 @property (nonatomic, weak) IBOutlet UITextField *accountTextField;
-@property (nonatomic, weak) IBOutlet UITextField *captchaTextField;
+
 
 @property (nonatomic, strong) IBOutlet NSLayoutConstraint *textFieldHeightConstraint;
 @property (nonatomic, strong) IBOutlet NSLayoutConstraint *firstTextFieldTopToBarViewBottomConstraint;
@@ -40,7 +40,7 @@
 @property (nonatomic, strong) UIButton *captchaButton;      // 发送验证码按钮
 
 @property (nonatomic, strong) YSTextFieldDelegateObj *accountTextFieldDelegateObj;
-@property (nonatomic, strong) YSTextFieldDelegateObj *captchaTextFieldDelegateObj;
+
 
 @end
 
@@ -99,43 +99,19 @@
     CGFloat textFieldHeight = self.textFieldHeightConstraint.constant;
     
     [YSTextFieldComponentCreator setupTextField:self.accountTextField height:textFieldHeight];
-    [YSTextFieldComponentCreator setupTextField:self.captchaTextField height:textFieldHeight];
+    [YSTextFieldComponentCreator setupTextField:self.accountTextField withPlaceholder:@"请输入用户名/手机号"];
     
     // 设置文本框左边图标
     UIImage *accountImage = [YSTextFieldComponentCreator getAccountIconWithContentEmptyState:YES];
-    UIImage *captchaImage = [YSTextFieldComponentCreator getPasswordIconWithContentEmptyState:YES];
+
     
     self.accountTextField.leftView = [YSTextFieldComponentCreator getViewWithImage:accountImage textFieldHeight:textFieldHeight];
     self.accountTextField.leftViewMode = UITextFieldViewModeAlways;
-    
-    self.captchaTextField.leftView = [YSTextFieldComponentCreator getViewWithImage:captchaImage textFieldHeight:textFieldHeight];
-    self.captchaTextField.leftViewMode = UITextFieldViewModeAlways;
-    
+
     self.accountTextField.keyboardType = UIKeyboardTypePhonePad;
-    
-    // 占位符
-    [YSTextFieldComponentCreator setupTextField:self.accountTextField withPlaceholder:@"请输入手机号"];
-    [YSTextFieldComponentCreator setupTextField:self.captchaTextField withPlaceholder:@"请输入验证码"];
-    
-    // 发送验证码按钮
-    self.captchaButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.captchaButton addTarget:self action:@selector(captchaButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    
-    CGFloat buttonWidth = [YSDevice isPhone6Plus] ? 96 : 76;
-    self.accountTextField.rightView = [YSTextFieldComponentCreator getViewWithCaptchaButton:self.captchaButton buttonWidth:buttonWidth textFieldHeight:textFieldHeight];
-    self.accountTextField.rightViewMode = UITextFieldViewModeAlways;
-    
-    // 输入手机号码的文本框有规则约束
-//    self.phoneTextFieldDelegate = [YSPhoneTextFieldLimitDelegate new];
-//    self.phoneTextFieldDelegate.delegate = self;
-//    self.accountTextField.delegate = self.phoneTextFieldDelegate;
-    
     self.accountTextField.returnKeyType = UIReturnKeyNext;
-    self.captchaTextField.returnKeyType = UIReturnKeyDone;
-    
     self.accountTextField.enablesReturnKeyAutomatically = YES;
-    self.captchaTextField.enablesReturnKeyAutomatically = YES;
-    
+
     [self setupTextFieldDelegate];
 }
 
@@ -158,11 +134,8 @@
     YSContentCheckIconChange *contentCheck2 = [[YSContentCheckIconChange alloc] initWithDelegate:self];
     NSArray *contentCheckArray2 = @[contentCheck2];
     
-    self.captchaTextFieldDelegateObj = [[YSTextFieldDelegateObj alloc] initWithEditingCheckArray:nil contentCheckArray:contentCheckArray2];
-    self.captchaTextField.delegate = self.captchaTextFieldDelegateObj;
-    
     self.accountTextFieldDelegateObj.delegate = self;
-    self.captchaTextFieldDelegateObj.delegate = self;
+
 }
 
 - (void)setupBackgroundImage
@@ -194,35 +167,11 @@
     
     CGFloat screenHeight = [UIApplication sharedApplication].keyWindow.frame.size.height;
     // 按钮距底边的间距为第一个文本框距导航栏的间距的2倍
-    CGFloat constant = (screenHeight - barViewHeight - height * 3 - distance * 2) / 3;
+    CGFloat constant = (screenHeight - barViewHeight - height * 3 - distance * 2) / 5;
     
     return constant;
 }
 
-- (void)captchaButtonClicked:(UIButton *)button
-{
-    NSString *phoneNumber = self.accountTextField.text;
-    BOOL isValid = [self checkPhoneNumberValid:phoneNumber];
-    
-    if (isValid)
-    {
-        YSNetworkManager *networkManager = [YSNetworkManager new];
-        [networkManager requestPasswordResetCodeForPhoneNumber:phoneNumber callback:^(BOOL succeeded, NSError * _Nullable error) {
-            if (succeeded) {
-                [self acquireResetPasswordCaptchaSuccess];
-            }else{
-                [[YSTipLabelHUD shareTipLabelHUD] showTipWithError:error];
-            }
-        }];
-        
-        [self sendCaptchaSuccess];
-    }
-    else
-    {
-        NSString *tipText = @"手机号不正确";
-        [[YSTipLabelHUD shareTipLabelHUD] showTipWithText:tipText];
-    }
-}
 
 - (BOOL)checkPhoneNumberValid:(NSString *)phoneNumber
 {
@@ -319,10 +268,10 @@
 - (void)findPassword
 {
     NSString *phoneNumber = self.accountTextField.text;
-    NSString *captcha = self.captchaTextField.text;
+
     
     // 保证两个文本框的输入不为空。
-    if (([phoneNumber length] < 1) || ([captcha length] < 1))
+    if (([phoneNumber length] < 1) )
     {
         NSString *type = ([phoneNumber length] < 1) ? @"手机号" : @"验证码";
         NSString *tip = [NSString stringWithFormat:@"%@不能为空", type];
@@ -337,11 +286,21 @@
         return;
     }
     
-    [[YSLoadingHUD shareLoadingHUD] show];
+     [self checkCaptchaSuccessWithPhoneNumber:phoneNumber];
     
+//    [[YSLoadingHUD shareLoadingHUD] show];
+//
 //    YSNetworkManager *networkManager = [YSNetworkManager new];
+//    [networkManager requestPasswordResetWithPhoneNumber:phoneNumber callback:^(BOOL succeeded, NSError * _Nullable error) {
+//        [[YSLoadingHUD shareLoadingHUD] dismiss];
+//        if (succeeded) {
+//            [self checkCaptchaSuccessWithPhoneNumber:phoneNumber];
+//        }else{
+//            [[YSTipLabelHUD shareTipLabelHUD] showTipWithError:error];
+//        }
+//    }];
 
-    [self checkCaptchaSuccessWithPhoneNumber:phoneNumber code:captcha];
+
 }
 
 - (void)showTipLabelWithText:(NSString *)text
@@ -356,39 +315,6 @@
     [[YSTipLabelHUD shareTipLabelHUD] showTipWithText:@"长度超过限制"];
 }
 
-//#pragma mark - YSTextFieldTableViewDelegate
-//
-//- (void)sendCaptchaWithPhoneNumber:(NSString *)phoneNumber
-//{
-//    BOOL isValid = [self checkPhoneNumberValid:phoneNumber];
-//    
-//    if (isValid)
-//    {
-//        YSNetworkManager *networkManager = [YSNetworkManager new];
-//        networkManager.delegate = self;
-//        [networkManager resetPasswordCaptchaWithPhoneNumber:phoneNumber];
-//        
-//        [self sendCaptchaSuccess];
-//    }
-//    else
-//    {
-//        NSString *tipText = @"手机号不正确";
-//        [[YSTipLabelHUD shareTipLabelHUD] showTipWithText:tipText];
-//    }
-//}
-
-#pragma mark - YSNetworkManagerDelegate
-
-//- (void)showAcquireCaptchaResultTip:(NSString *)tip
-//{
-//    [self showTipLabelWithText:tip];
-//}
-//
-//- (void)acquireCaptchaSuccess
-//{
-//    [self showTipLabelWithText:@"验证码已发送至手机短信"];
-//    [self sendCaptchaSuccess];
-//}
 
 - (void)acquireResetPasswordCaptchaSuccess
 {
@@ -400,13 +326,13 @@
     [self showTipLabelWithText:message];
 }
 
-- (void)checkCaptchaSuccessWithPhoneNumber:(NSString *)phoneNumber  code:(NSString *)code
+- (void)checkCaptchaSuccessWithPhoneNumber:(NSString *)phoneNumber
 {
     // 验证成功，跳转到重置密码页面
     
     [[YSLoadingHUD shareLoadingHUD] dismiss];
     
-    YSResetPasswordViewController *resetPasswordViewController = [[YSResetPasswordViewController alloc] initWithPhoneNumber:phoneNumber code:code];
+    YSResetPasswordViewController *resetPasswordViewController = [[YSResetPasswordViewController alloc] initWithPhoneNumber:phoneNumber];
     [self.navigationController pushViewController:resetPasswordViewController animated:YES];
 }
 
@@ -428,10 +354,6 @@
     {
         image = [YSTextFieldComponentCreator getAccountIconWithContentEmptyState:isEmpty];
     }
-    else if (textField == self.captchaTextField)
-    {
-        image = [YSTextFieldComponentCreator getPasswordIconWithContentEmptyState:isEmpty];
-    }
     
     textField.leftView = [YSTextFieldComponentCreator getViewWithImage:image textFieldHeight:textFieldHeight];
 }
@@ -449,10 +371,7 @@
 {
     if (textField == self.accountTextField)
     {
-        [self.captchaTextField becomeFirstResponder];
-    }
-    else if (textField == self.captchaTextField)
-    {
+
         [self findPassword];
     }
 }

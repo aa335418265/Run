@@ -43,8 +43,8 @@
     [AVUser resetPasswordWithSmsCode:code newPassword:password block:callback];
 }
 
-- (void)requestPasswordResetCodeForPhoneNumber:(NSString *)phoneNumber  callback:(ITXBooleanResultBlock)callback {
-    [AVUser requestPasswordResetCodeForPhoneNumber:phoneNumber options:nil callback:callback];
+- (void)requestPasswordResetWithPhoneNumber:(NSString *)phoneNumber  callback:(ITXBooleanResultBlock)callback {
+    [AVUser requestPasswordResetWithPhoneNumber:phoneNumber block:callback];
 }
 
 - (void)login:(NSString *)phoneNumber  password:(NSString *)password callback:(ITXAVUserResultBlock)callback {

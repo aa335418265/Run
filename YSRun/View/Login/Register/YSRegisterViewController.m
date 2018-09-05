@@ -216,6 +216,7 @@
         [self.networkManager getCaptchaWithPhoneNumber:phoneNumber callback:^(BOOL succeeded, NSError * _Nullable error) {
             if (succeeded) {
                 [self acquireCaptchaSuccess];
+                [self sendCaptchaSuccess];
             }else{
                 [self acquireCaptchaFailure];
             }
@@ -272,7 +273,7 @@
         [self showTipLabelWithText:tip];
         return;
     }
-    
+
     [[YSLoadingHUD shareLoadingHUD] show];
     [self.networkManager checkCaptcha:captcha phoneNumber:phoneNumber callback:^(BOOL succeeded, NSError * _Nullable error) {
         [[YSLoadingHUD shareLoadingHUD] dismiss];

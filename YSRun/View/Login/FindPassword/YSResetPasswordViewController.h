@@ -11,5 +11,5 @@
 @interface YSResetPasswordViewController : UIViewController
 
 - (id)initWithPhoneNumber:(NSString *)phoneNumber;
-- (id)initWithPhoneNumber:(NSString *)phoneNumber code:(NSString *)code;
+
 @end

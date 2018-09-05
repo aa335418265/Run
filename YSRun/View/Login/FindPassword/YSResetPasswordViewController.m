@@ -29,7 +29,6 @@
 @property (nonatomic, strong) UIButton *captchaButton;      // 发送验证码按钮
 
 @property (nonatomic, strong) NSString *phoneNumber;
-@property (nonatomic, strong) NSString *code;
 
 @property (nonatomic, weak) IBOutlet UITextField *captchaTextField;
 
@@ -44,17 +43,7 @@
 
 @implementation YSResetPasswordViewController
 
-- (id)initWithPhoneNumber:(NSString *)phoneNumber code:(NSString *)code
-{
-    self = [super init];
-    if (self)
-    {
-        self.phoneNumber = phoneNumber;
-        self.code = code;
-    }
-    
-    return self;
-}
+
 
 - (id)initWithPhoneNumber:(NSString *)phoneNumber
 {
@@ -109,7 +98,7 @@
 {
     NSString *phoneNumber = self.phoneNumber;
     YSNetworkManager *networkManager = [YSNetworkManager new];
-    [networkManager requestPasswordResetCodeForPhoneNumber:phoneNumber callback:^(BOOL succeeded, NSError * _Nullable error) {
+    [networkManager requestPasswordResetWithPhoneNumber:phoneNumber callback:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
             [self acquireResetPasswordCaptchaSuccess];
         }else{
@@ -326,7 +315,7 @@
     [[YSLoadingHUD shareLoadingHUD] show];
     
     YSNetworkManager *networkManager = [YSNetworkManager new];
-    [networkManager resetPasswordWithSmsCode:self.code newPassword:newPassword callback:^(BOOL succeeded, NSError * _Nullable error) {
+    [networkManager resetPasswordWithSmsCode:self.captchaTextField.text newPassword:newPassword callback:^(BOOL succeeded, NSError * _Nullable error) {
         [[YSLoadingHUD shareLoadingHUD] dismiss];
         if (succeeded) {
             [self resetPasswordSuccess];

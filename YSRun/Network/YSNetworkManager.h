@@ -83,7 +83,7 @@ typedef void (^ITXExistResultBlock)(BOOL existed,  NSError * _Nullable error);
 @property (nonatomic, weak) id<YSNetworkManagerDelegate> delegate;
 
 - (void)acquireCaptchaWithPhoneNumber:(NSString *)phoneNumber;
-//- (void)checkCaptcha:(NSString *)captcha phoneNumber:(NSString *)phoneNumber;
+
 - (void)loginWithAccount:(NSString *)account password:(NSString *)password;
 - (void)getRunDataWithUid:(NSString *)uid lastTime:(NSInteger)lastTime;
 
@@ -112,7 +112,7 @@ typedef void (^ITXExistResultBlock)(BOOL existed,  NSError * _Nullable error);
 - (void)resetPasswordWithSmsCode:(NSString *)code newPassword:(NSString *)password  callback:(ITXBooleanResultBlock)callback;
 
 //请求重置密码验证码
-- (void)requestPasswordResetCodeForPhoneNumber:(NSString *)phoneNumber  callback:(ITXBooleanResultBlock)callback;
+- (void)requestPasswordResetWithPhoneNumber:(NSString *)phoneNumber  callback:(ITXBooleanResultBlock)callback;
 
 //获取验证码
 - (void)getCaptchaWithPhoneNumber:(NSString *)phoneNumber callback:(ITXBooleanResultBlock)callback;
