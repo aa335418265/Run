@@ -109,6 +109,11 @@
     [self sendCaptchaSuccess];
 }
 
+- (void)acquireResetPasswordCaptchaSuccess
+{
+    [self showTipLabelWithText:@"验证码已发送至手机短信"];
+}
+
 ///
 
 - (void)resetCaptchaButtonState

@@ -218,7 +218,7 @@
                 [self acquireCaptchaSuccess];
                 [self sendCaptchaSuccess];
             }else{
-                [self acquireCaptchaFailure];
+                [[YSTipLabelHUD shareTipLabelHUD] showTipWithError:error];
             }
         }];
     }

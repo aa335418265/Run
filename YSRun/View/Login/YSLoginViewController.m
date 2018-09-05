@@ -296,6 +296,7 @@
             model.phone = user.mobilePhoneNumber;
             model.ctime = createdAtString;
             model.utime = updateAtString;
+            model.headimg = [user objectForKey:@"headerUrl"];
             
             [self loginSuccessWithUserInfoResponseModel:model];
             

@@ -87,7 +87,7 @@
     YSNetworkManager *networkManager = [YSNetworkManager new];
     networkManager.delegate = self;
     
-    // 登录完成之后第一次的lasttime传-1，服务器会进行处理。
+    // 登录完成之后第一次的lasttime传-1，服务器会进行处理。同步数据到本地
     [networkManager getRunDataWithUid:userInfoResponseModel.uid lastTime:-1];
     
     [self callback];

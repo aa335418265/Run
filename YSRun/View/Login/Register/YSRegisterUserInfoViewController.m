@@ -231,35 +231,41 @@
     user.username = self.account;
     user.mobilePhoneNumber = self.account;
     user.password = password;
-    //保存昵称
     [user setObject:nickName forKey:@"nickname"];
+    
     [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
+            
+            NSData *data = UIImageJPEGRepresentation(self.photoImage, 0.5);
+            AVFile *file = [AVFile fileWithData:data name:[NSString stringWithFormat:@"%@.png", self.account]];
+            [file uploadWithCompletionHandler:^(BOOL succeeded, NSError * _Nullable error) {
+                AVUser *user = [AVUser currentUser];
+                [user setObject:file.url forKey:@"headerUrl"];
+                [user saveInBackground];
+                [[YSLoadingHUD shareLoadingHUD] dismiss];
+                YSUserDatabaseModel *model = [[YSUserDatabaseModel alloc] init];
+                model.uid = user.sessionToken;
+                model.nickname = [user objectForKey:@"nickname"];
+                model.phone = user.mobilePhoneNumber;
+                
+                
+                if (succeeded) {
+                    model.headimg = file.url;
+                }else{
+                    NSLog(@"头像上传失败：%@", error);
+                }
+                [self registerSuccessWithModel:model];
+            }];
+            
 
-            YSUserDatabaseModel *model = [[YSUserDatabaseModel alloc] init];
-            model.uid = user.sessionToken;
-            model.nickname = user.username;
-            model.phone = user.mobilePhoneNumber;
-            
-            [self registerSuccessWithModel:model];
-            
         }else{
             [self registerSuccessFailureWithMessage:@"注册失败"];
         }
     }];
     
 //    //上传图片
-//    NSData *data = UIImageJPEGRepresentation(self.photoImage, 0.5);
-//    AVFile *file = [AVFile fileWithData:data name:[NSString stringWithFormat:@"%@.png", self.account]];
-//    [file uploadWithCompletionHandler:^(BOOL succeeded, NSError * _Nullable error) {
-//        [[YSLoadingHUD shareLoadingHUD] dismiss];
-//        if (succeeded) {
-//            NSLog(@"头像上传成功:%@", file.url);
-//        }else{
-//            NSLog(@"头像上传失败：%@", error);
-//        }
-//    }];
-//    
+
+//
 //    YSRegisterInfoRequestModel *requestModel = [YSRegisterInfoRequestModel new];
 //    requestModel.nickname = nickName;
 //    requestModel.phone = self.account;

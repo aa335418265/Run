@@ -20,11 +20,21 @@
 
 - (void)uploadHeadImage:(UIImage *)headImage
 {
-    YSNetworkManager *networkManager = [YSNetworkManager new];
-    networkManager.delegate = self;
+//    YSNetworkManager *networkManager = [YSNetworkManager new];
+//    networkManager.delegate = self;
+//    
+//    NSString *uid = [[YSDataManager shareDataManager] getUid];
+//    [networkManager uploadHeadImage:headImage uid:uid];
     
-    NSString *uid = [[YSDataManager shareDataManager] getUid];
-    [networkManager uploadHeadImage:headImage uid:uid];
+    NSData *data = UIImageJPEGRepresentation(headImage, 0.5);
+    
+    AVFile *file = [AVFile fileWithData:data name:@"header.png"];
+    [file uploadWithCompletionHandler:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            NSLog(@"%@", file.url);//返回一个唯一的 Url 地址
+            [self uploadHeadImageSuccessWithPath:file.url];
+        }
+    }];
 }
 
 #pragma mark - YSNetworkManagerDelegate
@@ -35,6 +45,11 @@
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(){
         NSString *uid = [[YSDataManager shareDataManager] getUid];
+        
+        AVUser *user =  [AVUser currentUser];
+        [user setObject:path forKey:@"headerUrl"];
+        [user saveInBackground];
+
         
         YSDatabaseManager *databaseManager = [YSDatabaseManager new];
         [databaseManager setUser:uid withHeadImagePath:path];
