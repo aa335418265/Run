@@ -39,6 +39,15 @@
 }
 
 #pragma mark - public method
+
+- (void)modifyNickname:(NSString *)nickname callback:(ITXBooleanResultBlock)callback
+{
+    AVUser *user = [AVUser currentUser];
+    [user setObject:nickname forKey:@"nickname"];
+    [user saveInBackgroundWithBlock:callback];
+}
+
+
 - (void)resetPasswordWithSmsCode:(NSString *)code newPassword:(NSString *)password  callback:(ITXBooleanResultBlock)callback {
     [AVUser resetPasswordWithSmsCode:code newPassword:password block:callback];
 }

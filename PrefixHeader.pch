@@ -10,5 +10,6 @@
 #define PrefixHeader_pch
 
 #import <AVOSCloud.h>
+#import "YSTipLabelHUD.h"
 
 #endif /* PrefixHeader_pch */

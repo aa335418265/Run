@@ -245,10 +245,18 @@
     
     [[YSLoadingHUD shareLoadingHUD] show];
     
-    YSNetworkManager *networkManager = [YSNetworkManager new];
-    networkManager.delegate = self;
+    [[AVUser currentUser] updatePassword:oldPassword newPassword:newPassword block:^(id  _Nullable object, NSError * _Nullable error) {
+        [[YSLoadingHUD shareLoadingHUD] dismiss];
+        if (error) {
+            [[YSTipLabelHUD shareTipLabelHUD] showTipWithError:error];
+        }else{
+            NSLog(@"object=%@",object);
+            [self showTipLabelWithText:@"修改密码成功"];
+        }
+    }];
+
     
-    [networkManager modifyPasswordWithPhoneNumber:self.phoneNumber oldPassword:oldPassword newPassword:newPassword];
+
 }
 
 - (void)showTipLabelWithText:(NSString *)text

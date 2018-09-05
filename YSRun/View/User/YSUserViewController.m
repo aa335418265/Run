@@ -198,6 +198,8 @@
     // 数据库更新后重置数据。
     [self resetUserLevel];
     [self changeViewWithLoginState:NO];
+    //
+    [AVUser logOut];
     
     // 退出登录后取消第三方的授权
     [YSShareFunc cancelAuthorized];
@@ -335,14 +337,15 @@
     YSDatabaseManager *databaseManager = [YSDatabaseManager new];
     [databaseManager setUser:uid withNickname:nickname];
     
-    // 修改服务器数据
-    YSSetUserRequestModel *setUserRequestModel = [YSSetUserRequestModel new];
-    setUserRequestModel.uid = uid;
-    setUserRequestModel.nickname = nickname;
     
-    YSNetworkManager *networkManager = [YSNetworkManager new];
-    networkManager.delegate = self;
-    [networkManager setUserWithRequestModel:setUserRequestModel];
+    [[YSNetworkManager new] modifyNickname:nickname callback:^(BOOL succeeded, NSError * _Nullable error) {
+        if (!succeeded) {
+            [[YSTipLabelHUD shareTipLabelHUD] showTipWithError:error];
+        }else{
+            [[YSTipLabelHUD shareTipLabelHUD] showTipWithText:@"昵称修改成功"];
+        }
+    }];
+
     
     [self resetUserLevel];
 }

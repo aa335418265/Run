@@ -228,9 +228,11 @@
     [[YSLoadingHUD shareLoadingHUD] show];
     
     AVUser *user = [AVUser user];
-    user.username = nickName;
+    user.username = self.account;
     user.mobilePhoneNumber = self.account;
     user.password = password;
+    //保存昵称
+    [user setObject:nickName forKey:@"nickname"];
     [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
 

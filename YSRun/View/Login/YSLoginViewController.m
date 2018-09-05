@@ -292,7 +292,7 @@
             
             YSUserInfoResponseModel *model = [[YSUserInfoResponseModel alloc] init];
             model.uid = user.objectId;
-            model.nickname = user.username;
+            model.nickname = [user objectForKey:@"nickname"];
             model.phone = user.mobilePhoneNumber;
             model.ctime = createdAtString;
             model.utime = updateAtString;

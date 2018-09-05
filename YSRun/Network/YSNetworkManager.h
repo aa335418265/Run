@@ -107,6 +107,9 @@ typedef void (^ITXExistResultBlock)(BOOL existed,  NSError * _Nullable error);
 //登录
 - (void)login:(NSString *)phoneNumber  password:(NSString *)password callback:(ITXAVUserResultBlock)callback;
 
+//修改昵称
+- (void)modifyNickname:(NSString *)nickname callback:(ITXBooleanResultBlock)callback;
+
 ////验证手机验证码--忘记密码使用
 //-(void)verifyMobilePhone:(NSString *)code withBlock:(ITXBooleanResultBlock)block;
 - (void)resetPasswordWithSmsCode:(NSString *)code newPassword:(NSString *)password  callback:(ITXBooleanResultBlock)callback;
