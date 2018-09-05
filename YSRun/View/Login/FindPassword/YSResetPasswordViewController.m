@@ -34,6 +34,7 @@
 @property (nonatomic, weak) IBOutlet UITextField *captchaTextField;
 
 @property (nonatomic, strong) IBOutlet NSLayoutConstraint *textFieldHeightConstraint;
+@property (nonatomic, strong) IBOutlet NSLayoutConstraint *captchaTextFieldHeightConstraint;
 @property (nonatomic, strong) IBOutlet NSLayoutConstraint *textFieldTopToBarViewBottomConstraint;
 
 @property (nonatomic, strong) YSTextFieldDelegateObj *textFieldDelegateObj;
@@ -77,12 +78,14 @@
     if ([YSDevice isPhone6Plus])
     {
         self.textFieldHeightConstraint.constant = 52;
+        self.captchaTextFieldHeightConstraint.constant = 52;
     }
     
     [self setupButton];
     [self setupTextField];
     [self setupBackgroundImage];
     [self addBackgroundTapGesture];
+    [self sendCaptchaSuccess];
 }
 
 - (void)viewWillAppear:(BOOL)animated
