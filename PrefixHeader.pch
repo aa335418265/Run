@@ -1,0 +1,14 @@
+//
+//  PrefixHeader.pch
+//  YSRun
+//
+//  Created by fenglh on 2018/9/5.
+//  Copyright © 2018年 msq. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+#import <AVOSCloud.h>
+
+#endif /* PrefixHeader_pch */
