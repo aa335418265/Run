@@ -83,7 +83,8 @@
 {
     [super viewDidAppear:animated];
     
-    [self.thirdPartLoginView setupSubViews];
+    //屏蔽第三方登录
+//    [self.thirdPartLoginView setupSubViews];
 }
 
 - (void)viewDidLayoutSubviews

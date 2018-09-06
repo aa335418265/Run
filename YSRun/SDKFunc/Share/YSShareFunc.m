@@ -33,8 +33,8 @@
     // 暂只支持微信、QQ、微博的分享，而且是其中的子平台。
     [ShareSDK registerApp:@"27b70e6270feb"
           activePlatforms:@[
-                            @(SSDKPlatformTypeSinaWeibo),
-                            @(SSDKPlatformTypeWechat),
+//                            @(SSDKPlatformTypeSinaWeibo),
+//                            @(SSDKPlatformTypeWechat),
 //                            @(SSDKPlatformSubTypeWechatSession),
 //                            @(SSDKPlatformSubTypeWechatTimeline),
                             @(SSDKPlatformTypeQQ),

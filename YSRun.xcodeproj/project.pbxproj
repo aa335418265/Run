@@ -3512,10 +3512,10 @@
 					"-ObjC",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = cn.com.itx.mj.run;
+				PRODUCT_BUNDLE_IDENTIFIER = com.itx.mj.run;
 				PRODUCT_NAME = "易瘦跑步";
 				PROVISIONING_PROFILE = "02b41f4a-21f2-4f5b-9d84-431203279ec7";
-				PROVISIONING_PROFILE_SPECIFIER = dev_5JP793NCMQ.cn.com.itx.mj1_2018_05_23;
+				PROVISIONING_PROFILE_SPECIFIER = dev_com.itx.mj.run;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -3552,10 +3552,10 @@
 					"-ObjC",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = cn.com.itx.mj.run;
+				PRODUCT_BUNDLE_IDENTIFIER = com.itx.mj.run;
 				PRODUCT_NAME = "易瘦跑步";
 				PROVISIONING_PROFILE = "02b41f4a-21f2-4f5b-9d84-431203279ec7";
-				PROVISIONING_PROFILE_SPECIFIER = dev_5JP793NCMQ.cn.com.itx.mj1_2018_05_23;
+				PROVISIONING_PROFILE_SPECIFIER = dev_com.itx.mj.run;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
