@@ -15,6 +15,7 @@
 #import <MAMapKit/MAMapKit.h>
 #import "YSAppMacro.h"
 #import <AVOSCloud.h>
+#import <AXWebViewController.h>
 
 @interface AppDelegate ()
 
@@ -26,23 +27,33 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    YSMainTabBarViewController *viewController = [[YSMainTabBarViewController alloc] init];
-    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    [self.window setRootViewController:viewController];
+    
+    [AVOSCloud setApplicationId:@"qhvc7xUkEHlNwdpXvshohwyz-gzGzoHsz" clientKey:@"8LA2M2l97GmfaaKcUMxtbSca"];
+    AVQuery *query = [AVQuery queryWithClassName:@"AD"];
+    [query whereKey:@"type" equalTo:@"ad"];
+    NSError *error;
+    AVObject *object = [query getFirstObject:&error];
+    NSString *adUrl = [object objectForKey:@"adUrl"];
+    
+    if (adUrl) {
+        AXWebViewController *webVC = [[AXWebViewController alloc] initWithAddress:adUrl];
+        webVC.showsToolBar = YES;
+        [self.window setRootViewController:webVC];
+    }else{
+        YSMainTabBarViewController *viewController = [[YSMainTabBarViewController alloc] init];
+        [self.window setRootViewController:viewController];
+    }
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
 
     
-    [self SDKConfig];
-
-    
-    [AVOSCloud setApplicationId:@"qhvc7xUkEHlNwdpXvshohwyz-gzGzoHsz" clientKey:@"8LA2M2l97GmfaaKcUMxtbSca"];
-    
     return YES;
 }
+
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
