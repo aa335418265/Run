@@ -7,7 +7,7 @@ inhibit_all_warnings!
 target 'YSRun' do
     
  pod 'AVOSCloud', '~> 10.0.0'
- pod 'AXWebViewController', '~> 0.6.0'
+ pod 'AXWebViewController', '~> 0.7.2'
 
 end
 

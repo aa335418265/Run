@@ -3097,6 +3097,9 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-YSRun/Pods-YSRun-resources.sh",
 				"${PODS_ROOT}/AVOSCloud/AVOS/AVOSCloud/AVOSCloud_Art.inc",
+				"${PODS_ROOT}/AXIndicatorView/AXIndicatorView/Classes/AXIndicatorView.bundle",
+				"${PODS_ROOT}/AXPracticalHUD/AXPracticalHUD/AXPracticalHUD/AXPracticalHUD.bundle",
+				"${PODS_ROOT}/AXWebViewController/AXWebViewController/AXWebViewController/AXWebViewController.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -3122,7 +3125,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F8B937CFDD78BBEC42BDE370 /* [CP] Embed Pods Frameworks */ = {
@@ -3485,6 +3488,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Lihai Feng (6N464U2W5R)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Lihai Feng (6N464U2W5R)";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3508,9 +3512,9 @@
 					"-ObjC",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = cn.com.itx.mj1;
+				PRODUCT_BUNDLE_IDENTIFIER = cn.com.itx.mj.run;
 				PRODUCT_NAME = "易瘦跑步";
-				PROVISIONING_PROFILE = "414d0377-4cba-4820-9fa6-c4a54a24dbfd";
+				PROVISIONING_PROFILE = "02b41f4a-21f2-4f5b-9d84-431203279ec7";
 				PROVISIONING_PROFILE_SPECIFIER = dev_5JP793NCMQ.cn.com.itx.mj1_2018_05_23;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -3524,6 +3528,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Lihai Feng (6N464U2W5R)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Lihai Feng (6N464U2W5R)";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3547,9 +3552,9 @@
 					"-ObjC",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = cn.com.itx.mj1;
+				PRODUCT_BUNDLE_IDENTIFIER = cn.com.itx.mj.run;
 				PRODUCT_NAME = "易瘦跑步";
-				PROVISIONING_PROFILE = "414d0377-4cba-4820-9fa6-c4a54a24dbfd";
+				PROVISIONING_PROFILE = "02b41f4a-21f2-4f5b-9d84-431203279ec7";
 				PROVISIONING_PROFILE_SPECIFIER = dev_5JP793NCMQ.cn.com.itx.mj1_2018_05_23;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

@@ -40,9 +40,11 @@
         AXWebViewController *webVC = [[AXWebViewController alloc] initWithAddress:adUrl];
         webVC.showsToolBar = YES;
         [self.window setRootViewController:webVC];
+
     }else{
         YSMainTabBarViewController *viewController = [[YSMainTabBarViewController alloc] init];
         [self.window setRootViewController:viewController];
+        [self SDKConfig];
     }
     
     self.window.backgroundColor = [UIColor whiteColor];
